@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SafeLink – About Us</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
+      background: #0a0f1e;
+      color: #eaf6ff;
+      min-height: 100vh;
+    }
+    
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #131c2e;
+      padding: 18px 24px;
+      position: relative;
+      z-index: 100;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 101;
+      text-decoration: none;
+    }
+    .navbar-logo .icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg,#08cff6,#1376ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+    }
+    .navbar-logo-text { line-height: 1.2; }
+    .navbar-logo-title {
+      font-weight: bold;
+      font-size: 1.18em;
+      color: #fff;
+      letter-spacing: .03em;
+    }
+    .navbar-logo-sub {
+      color: #27defc;
+      font-size: .92em;
+    }
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .navbar-links a {
+      color: #b0eaff;
+      text-decoration: none;
+      font-size: 1em;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 7px;
+      transition: background .19s, color .18s;
+    }
+    .navbar-links a:hover, .navbar-links .active {
+      background: #1084ff44;
+      color: #53d6ff;
+    }
+    .navbar-auth { margin-left: 24px; }
+    .navbar-auth button {
+      padding: 10px 20px;
+      border-radius: 20px;
+      background: #19baff;
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .navbar-auth button:hover {
+      background: #53d6ff;
+      color: #121b25;
+    }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 2em;
+      color: #53d6ff;
+      cursor: pointer;
+      z-index: 101;
+    }
+    .close-btn {
+      display: none;
+      position: absolute;
+      top: 22px;
+      right: 18px;
+      font-size: 2.5em;
+      background: none;
+      color: #53d6ff;
+      border: none;
+      cursor: pointer;
+      z-index: 102;
+      line-height: 1;
+    }
+
+    /* HERO SECTION */
+    .about-hero {
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a2540 50%, #2d3a70 100%);
+      padding: 80px 20px 60px;
+      text-align: center;
+    }
+    .about-hero h1 {
+      font-size: 3.5em;
+      background: linear-gradient(90deg, #54c7ea, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .about-hero p {
+      font-size: 1.25em;
+      color: #c0d5e8;
+      max-width: 850px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* STATS SECTION */
+    .stats-section {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: -40px auto 80px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .stat-box {
+      background: linear-gradient(135deg, rgba(30, 45, 80, 0.8), rgba(20, 30, 55, 0.9));
+      border: 1px solid rgba(25, 186, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      min-width: 180px;
+      flex: 1;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+    .stat-number {
+      font-size: 3em;
+      color: #19baff;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .stat-label {
+      font-size: 1.1em;
+      color: #a0b9d1;
+      font-weight: 500;
+    }
+
+    /* MISSION SECTION */
+    .mission-section {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .mission-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #19baff, #1084ff);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+      margin: 0 auto 30px;
+      box-shadow: 0 4px 20px rgba(25, 186, 255, 0.4);
+    }
+    .mission-section h2 {
+      font-size: 2.5em;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .mission-section p {
+      font-size: 1.2em;
+      color: #c0d5e8;
+      line-height: 1.8;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    /* STORY SECTION */
+    .story-section {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 60px 40px;
+      background: linear-gradient(135deg, rgba(30, 45, 80, 0.6), rgba(20, 30, 55, 0.8));
+      border-radius: 30px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    }
+    .story-section h2 {
+      font-size: 2.5em;
+      color: #54c7ea;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .story-section p {
+      font-size: 1.15em;
+      color: #c0d5e8;
+      line-height: 1.9;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    /* VALUES SECTION */
+    .values-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+    .values-section h2 {
+      font-size: 2.5em;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .value-card {
+      background: linear-gradient(135deg, rgba(30, 45, 80, 0.6), rgba(20, 30, 55, 0.8));
+      border: 1px solid rgba(25, 186, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px 30px;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .value-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(25, 186, 255, 0.3);
+    }
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+    .icon-blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .icon-pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+    .icon-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .icon-green { background: linear-gradient(135deg, #10b981, #047857); }
+    .value-card h3 {
+      font-size: 1.5em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .value-card p {
+      font-size: 1.05em;
+      color: #a0b9d1;
+      line-height: 1.6;
+    }
+
+    /* TEAM SECTION */
+    .team-section {
+      max-width: 1200px;
+      margin: 80px auto 100px;
+      padding: 0 20px;
+    }
+    .team-section h2 {
+      font-size: 2.5em;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+    .team-card {
+      background: linear-gradient(135deg, rgba(20, 30, 55, 0.9), rgba(10, 15, 30, 0.9));
+      border: 1px solid rgba(25, 186, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(25, 186, 255, 0.3);
+    }
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #19baff, #1084ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+      color: #fff;
+      font-weight: 700;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 20px rgba(25, 186, 255, 0.4);
+    }
+    .team-card h3 {
+      font-size: 1.4em;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .team-role {
+      font-size: 1em;
+      color: #19baff;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .team-bio {
+      font-size: 0.95em;
+      color: #8ea8c3;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0a0e1a;
+      padding: 60px 20px 20px;
+      border-top: 1px solid rgba(25, 186, 255, 0.1);
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-section h3 {
+      color: #19baff;
+      font-size: 1.15em;
+      margin-bottom: 16px;
+    }
+    .footer-section p, .footer-section ul {
+      color: #8ea8c3;
+      font-size: .95em;
+      line-height: 1.8;
+      margin: 0;
+    }
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-section ul li {
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .footer-section ul li:hover {
+      color: #19baff;
+    }
+    .footer-contact div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: #8ea8c3;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(25, 186, 255, 0.1);
+      color: #8ea8c3;
+      font-size: .9em;
+    }
+    a{
+      text-decoration: none;
+      color: #6b8aaa;
+    }
+    a:hover{
+      color: #19c5ff;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .footer-social a {
+      background: rgba(25, 186, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #19baff;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: all .3s;
+    }
+    .footer-social a:hover {
+      background: #19baff;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hamburger { display: block; }
+      .navbar-links {
+        flex-direction: column;
+        position: fixed;
+        top: 0; right: 0;
+        width: 75vw;
+        max-width: 350px;
+        height: 100vh;
+        background: linear-gradient(120deg,#131c2e 60%,#0b1321 100%);
+        box-shadow: -10px 0 40px #0008;
+        padding: 80px 20px 30px;
+        z-index: 99;
+        gap: 0;
+        transform: translateX(100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .4s cubic-bezier(.39,.58,.57,1.14), opacity 0.3s;
+      }
+      .navbar-links.open {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+            .navbar-links a {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+      .navbar-auth {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 100%;
+      }
+      .navbar-auth button { width: 100%; }
+      .close-btn { display: block; }
+      .about-hero h1 { font-size: 2.2em; }
+      .about-hero p { font-size: 1.1em; }
+      .stats-section { margin: -30px auto 60px; }
+      .stat-box { padding: 30px 20px; }
+      .stat-number { font-size: 2.2em; }
+      .mission-section h2, .story-section h2, .values-section h2, .team-section h2 {
+        font-size: 2em;
+      }
+      .story-section { padding: 40px 24px; }
+      .values-grid, .team-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .navbar-logo-title { font-size: 1em; }
+      .navbar-logo .icon { width: 36px; height: 36px; font-size: 1.3em; }
+      .about-hero h1 { font-size: 1.8em; }
+      .stat-number { font-size: 1.8em; }
+      .mission-section h2 { font-size: 1.6em; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="Home.html" class="navbar-logo">
+      <span class="icon">🛡️</span>
+      <span class="navbar-logo-text">
+        <div class="navbar-logo-title">SafeLink</div>
+        <div class="navbar-logo-sub">Digital Defense Hub</div>
+      </span>
+    </a>
+    <button class="hamburger" aria-label="Menu">&#9776;</button>
+    <div class="navbar-links">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <a href="Home.html">Home</a>
+      <a href="Safetytips.html">Safety Tips</a>
+      <a href="Quiz.html">Quiz</a>
+      <a href="Aboutus.html" class="active">About Us</a>
+      <a href="Contactus.html">Contact</a>
+      <span class="navbar-auth">
+        <button id="authBtn">Login / Sign Up</button>
+      </span>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="about-hero">
+    <h1>About SafeLink</h1>
+    <p>We're on a mission to democratize digital security education and protect individuals from the evolving threats of neural hijacking and cybercrime.</p>
+  </section>
+
+  <!-- STATS SECTION -->
+  <section class="stats-section">
+    <div class="stat-box">
+      <span class="stat-number">2024</span>
+      <span class="stat-label">Founded</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">50K+</span>
+      <span class="stat-label">Active Users</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">100+</span>
+      <span class="stat-label">Lessons</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-number">95%</span>
+      <span class="stat-label">Success Rate</span>
+    </div>
+  </section>
+
+  <!-- MISSION SECTION -->
+  <section class="mission-section">
+    <div class="mission-icon">🎯</div>
+    <h2>Our Mission</h2>
+    <p>In an era where cyber threats have evolved beyond simple password breaches to sophisticated neural hijacking attacks, SafeLink exists to bridge the knowledge gap. We believe everyone deserves access to world-class security education, regardless of their technical background or financial situation. Through interactive learning, real-world scenarios, and gamified experiences, we're building a generation of digitally resilient individuals.</p>
+  </section>
+
+  <!-- STORY SECTION -->
+  <section class="story-section">
+    <h2>Our Story</h2>
+    <p>SafeLink was born from a personal experience. In early 2024, our founder Dr. Sarah Chen witnessed a close friend fall victim to a sophisticated neural hijacking attack. Despite being tech-savvy, they simply weren't aware of the latest attack vectors.</p>
+    <p>This incident sparked a realization: traditional cybersecurity education wasn't keeping pace with evolving threats. Most resources were either too technical for average users or too superficial to be truly protective.</p>
+    <p>We set out to change that. By combining Sarah's security expertise, Marcus's educational background, and a passionate team of developers and analysts, we created SafeLink—a platform that makes advanced security concepts accessible, engaging, and actionable for everyone.</p>
+    <p>Today, we're proud to serve over 50,000 learners worldwide, helping them build the knowledge and confidence to navigate our increasingly complex digital landscape safely.</p>
+  </section>
+
+  <!-- VALUES SECTION -->
+  <section class="values-section">
+    <h2>Our Values</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon icon-blue">🛡️</div>
+        <h3>Security First</h3>
+        <p>We prioritize your digital safety above all else, providing cutting-edge protection strategies.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon icon-pink">👥</div>
+        <h3>Community Driven</h3>
+        <p>Built by security experts and shaped by our community of 50,000+ active learners worldwide.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon icon-red">❤️</div>
+        <h3>Accessible Learning</h3>
+        <p>Free, comprehensive education for everyone. Digital security should never be a privilege.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon icon-green">⚡</div>
+        <h3>Always Evolving</h3>
+        <p>Constantly updated content to stay ahead of emerging threats and new attack vectors.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM SECTION -->
+  <section class="team-section">
+    <h2>Meet Our Team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">D</div>
+        <h3>Dr. Sarah Chen</h3>
+        <div class="team-role">Founder & Chief Security Officer</div>
+        <p class="team-bio">Former neural security researcher with 15+ years in cybersecurity and threat prevention.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">M</div>
+        <h3>Marcus Rodriguez</h3>
+        <div class="team-role">Head of Education</div>
+        <p class="team-bio">Educational technologist specializing in gamified learning and adaptive curriculum design.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">A</div>
+        <h3>Aisha Patel</h3>
+        <div class="team-role">Lead Developer</div>
+        <p class="team-bio">Full-stack engineer focused on building secure, accessible educational platforms.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">J</div>
+        <h3>James Thompson</h3>
+        <div class="team-role">Security Analyst</div>
+        <p class="team-bio">Ethical hacker and penetration tester helping identify and prevent emerging threats.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>SafeLink</h3>
+        <div style="color:#53d6ff; font-size:1em; margin-bottom: 10px;">Digital Defense Hub</div>
+        <p>Empowering individuals with knowledge to defend against modern cyber threats and neural hijacking.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li onclick="window.location.href='Home.html'">Home</li>
+          <li onclick="window.location.href='Safetytips.html'">Safety Tips</li>
+          <li onclick="window.location.href='Quiz.html'">Take Quiz</li>
+          <li onclick="window.location.href='Aboutus.html'">About Us</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="Safetytips.html">Learning Modules</a> </li>
+          <li><a href="Safetytips.html">Security Guide</a> </li>
+          <li><a href="Privacy.html">Privacy Policy</a> </li>
+          <li><a href="Terms.html">Terms of Service</a> </li>
+        </ul>
+      </div>
+      <div class="footer-section footer-contact">
+        <h3>Contact Us</h3>
+        <div>📧<a href="mailto:info@safelink.com">info@safelink.com</a></div>
+        <div>📞 +1 (555) 123-4567</div>
+        <div>📍 San Francisco, CA</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 SafeLink. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/">f</a>
+        <a href="https://www.twitter.com/">𝕏</a>
+        <a href="https://www.linkedin.com/">in</a>
+        <a href="https://www.instagram.com/">📷</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // HAMBURGER MENU
+    const hamburger = document.querySelector('.hamburger');
+    const navbarLinks = document.querySelector('.navbar-links');
+    const closeBtn = document.querySelector('.close-btn');
+
+    hamburger.onclick = () => navbarLinks.classList.add('open');
+    closeBtn.onclick = () => navbarLinks.classList.remove('open');
+    
+    navbarLinks.querySelectorAll('a').forEach(link => {
+      link.onclick = () => {
+        if(window.innerWidth <= 900) navbarLinks.classList.remove('open');
+      }
+    });
+   
+        function updateAuthUI() {
+  const username = localStorage.getItem('currentUser');
+  const authBtn = document.getElementById('authBtn');
+  if (!authBtn) return;
+  if (username) {
+    authBtn.textContent = '👤 ' + username + ' (Logout)';
+    authBtn.onclick = handleLogout;
+  } else {
+    authBtn.textContent = 'Login / Sign Up';
+    authBtn.onclick = function() {
+      // Only show login modal if on Quiz.html, else redirect to Quiz.html
+      if (typeof showLoginModal === 'function') {
+        showLoginModal();
+      } else {
+        window.location.href = "Quiz.html";
+      }
+    };
+  }
+}
+function updateAuthUI() {
+  const username = localStorage.getItem('currentUser');
+  const authBtn = document.getElementById('authBtn');
+  const dropdown = document.getElementById('accountDropdown');
+  const dropdownUser = document.getElementById('dropdownUser');
+  const logoutBtn = document.getElementById('dropdownLogout');
+  
+  if (!authBtn) return;
+  
+  if (username) {
+    authBtn.textContent = '👤 ' + username;
+    authBtn.onclick = function(e) {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      if (dropdownUser) dropdownUser.textContent = username;
+    }
+    document.body.addEventListener('click', function(e) {
+      if (!authBtn.contains(e.target) && dropdown.style.display !== 'none') {
+        dropdown.style.display = 'none';
+      }
+    });
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        localStorage.removeItem('currentUser');
+        dropdown.style.display = 'none';
+        window.location.reload();
+      }
+    }
+  } else {
+    if (dropdown) dropdown.style.display = 'none';
+    authBtn.textContent = 'Login / Sign Up';
+    authBtn.onclick = function() {
+      window.location.href = "Login.html";
+    };
+  }
+}
+window.addEventListener('DOMContentLoaded', updateAuthUI);
+window.addEventListener('storage', updateAuthUI);
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('currentUser');
+    window.location.reload();
+  }
+}
+window.addEventListener('DOMContentLoaded', updateAuthUI);
+window.addEventListener('storage', updateAuthUI);
+
+
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 900) navbarLinks.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

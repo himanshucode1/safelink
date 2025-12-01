@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SafeLink — Digital Safety Learning Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
+      background: #131c24;
+      color: #eaf6ff;
+      min-height: 100vh;
+    }
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #131c2e;
+      padding: 18px 24px 14px 24px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 9;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .navbar-logo .icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg,#08cff6,#1376ff);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-right: 4px;
+      font-size: 1.5em;
+    }
+    .navbar-logo-text {
+      line-height: 1;
+    }
+    .navbar-logo-title {
+      font-weight: bold;
+      font-size: 1.18em;
+      color: #fff;
+      letter-spacing: .03em;
+    }
+    .navbar-logo-sub {
+      color: #27defc;
+      font-size: .92em;
+      margin-top: -2px;
+    }
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      transition: none;
+    }
+    .navbar-links a {
+      color: #b0eaff;
+      text-decoration: none;
+      font-size: 1em;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 7px;
+      transition: background .19s, color .18s;
+    }
+    .navbar-links a:hover, .navbar-links .active {
+      background: #1084ff44;
+      color: #53d6ff;
+    }
+    .navbar-auth {
+      margin-left: 24px;
+    }
+    .navbar-auth button {
+      padding: 8px 18px;
+      border-radius: 20px;
+      background: #19baff;
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .navbar-auth button:hover {
+      background: #53d6ff;
+      color: #121b25;
+    }
+    .hamburger {
+      background: none;
+      border: none;
+      font-size: 2em;
+      color: #53d6ff;
+      margin-left: 14px;
+      display: none;
+      cursor: pointer;
+      z-index: 12;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+    }
+    /* Close (cut) button */
+    .close-btn {
+      display: none;
+      position: absolute;
+      top: 22px;
+      right: 15px;
+      z-index: 22;
+      font-size: 2.1em;
+      background: none;
+      color: #53d6ff;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+    @media (max-width: 900px) {
+      .navbar-links {
+        flex-direction: column;
+        position: fixed;
+        gap: 0;
+        top: 0; right: 0;
+        width: 80vw;
+        max-width: 350px;
+        height: 100vh;
+        background: linear-gradient(120deg,#131c2e 60%,#0b1321 100%);
+        box-shadow: -10px 0 40px #0008;
+        border-radius: 0 0 32px 28px;
+        padding: 70px 0 24px 18px;
+        z-index: 20;
+        transform: translateX(100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .36s cubic-bezier(.39,.58,.57,1.14), opacity 0.26s;
+      }
+      .navbar-links.open {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .navbar-auth { margin-left: 0; margin-top: 18px;}
+      .close-btn {
+        display: block;
+      }
+    }
+    @media (max-width: 600px) {
+      .navbar-logo-title { font-size: 1.05em; }
+      .navbar-links a { font-size: 0.95em; padding: 12px 12px; }
+      .navbar-auth button { font-size: .98em; padding: 10px 15px;}
+      .navbar-logo .icon { width: 36px; height: 36px; font-size: 1.24em;}
+    }
+
+    
+.hero {
+  background: linear-gradient(135deg, #0a0e1a 0%, #1a2540 50%, #2d3a70 100%);
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px 60px 20px;
+}
+.hero-title {
+  font-size: 3.5em;
+  background: linear-gradient(90deg, #54c7ea, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+.hero-desc {
+  font-size: 1.25em;
+  color: #c0d5e8;
+  margin-bottom: 40px;
+  max-width: 800px;
+  line-height: 1.6;
+}
+.hero-btns {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-btns button {
+  padding: 16px 36px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .3s;
+}
+.btn-primary {
+  background: #19baff;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #53d6ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(25, 186, 255, 0.4);
+}
+.btn-secondary {
+  background: #fff;
+  color: #1376ff;
+}
+.btn-secondary:hover {
+  background: #f0f9ff;
+  transform: translateY(-2px);
+}
+.stats-section {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.stat-card {
+  background: rgba(26, 37, 64, 0.6);
+  border-radius: 16px;
+  padding: 30px 40px;
+  text-align: center;
+  min-width: 160px;
+  flex: 1;
+}
+.stat-number {
+  font-size: 2.5em;
+  color: #19baff;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 1em;
+  color: #a0b9d1;
+}
+.why-section {
+  padding: 80px 20px;
+  text-align: center;
+  background: #0a0e1a;
+}
+.why-section h2 {
+  font-size: 2.8em;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.why-section .subtitle {
+  font-size: 1.15em;
+  color: #8ea8c3;
+  margin-bottom: 60px;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.feature-card {
+  background: linear-gradient(135deg, rgba(20, 30, 55, 0.8), rgba(30, 45, 80, 0.6));
+  border-radius: 20px;
+  padding: 40px 24px;
+  text-align: left;
+  transition: transform .3s, box-shadow .3s;
+}
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(25, 186, 255, 0.2);
+}
+.feature-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+.icon-blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.icon-pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+.icon-orange { background: linear-gradient(135deg, #f97316, #c2410c); }
+.icon-green { background: linear-gradient(135deg, #10b981, #047857); }
+
+
+    .everything-section {
+  padding: 80px 20px;
+  background: #0f1420;
+}
+.everything-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.everything-left h2 {
+  font-size: 2.5em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.everything-left p {
+  font-size: 1.1em;
+  color: #8ea8c3;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+.check-list {
+  list-style: none;
+  padding: 0;
+}
+.check-list li {
+  font-size: 1.05em;
+  color: #c0d5e8;
+  margin-bottom: 16px;
+  padding-left: 35px;
+  position: relative;
+}
+.check-list li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #19baff;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.everything-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.community-card {
+  background: linear-gradient(135deg, rgba(30, 45, 80, 0.6), rgba(20, 30, 55, 0.8));
+  border-radius: 16px;
+  padding: 28px 24px;
+  border-left: 4px solid #19baff;
+  transition: transform .3s;
+}
+.community-card:hover {
+  transform: translateX(8px);
+}
+.community-card strong {
+  color: #fff;
+  font-size: 1.15em;
+  display: block;
+  margin-bottom: 8px;
+}
+.community-card p {
+  color: #a0b9d1;
+  margin: 0;
+  font-size: 1em;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 80px 20px;
+  text-align: center;
+  background: #0a0e1a;
+}
+.cta-box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1084ff, #19c5ff);
+  border-radius: 32px;
+  padding: 60px 40px;
+}
+.cta-box h2 {
+  font-size: 2.5em;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.cta-box p {
+  font-size: 1.2em;
+  color: #e0f2ff;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+.cta-box button {
+  padding: 16px 42px;
+  background: #fff;
+  color: #1376ff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.15em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .3s;
+}
+.cta-box button:hover {
+  background: #f0f9ff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+}
+
+/* Footer */
+footer {
+  background: #0a0e1a;
+  padding: 60px 20px 20px 20px;
+  border-top: 1px solid rgba(25, 186, 255, 0.1);
+}
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer-section h3 {
+  color: #19baff;
+  font-size: 1.15em;
+  margin-bottom: 16px;
+}
+.footer-section p, .footer-section ul {
+  color: #8ea8c3;
+  font-size: .95em;
+  line-height: 1.8;
+  margin: 0;
+}
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+.footer-section ul li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color .2s;
+}
+.footer-section ul li:hover {
+  color: #19baff;
+}
+.footer-contact div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #8ea8c3;
+}
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(25, 186, 255, 0.1);
+  color: #8ea8c3;
+  font-size: .9em;
+}
+a{
+  text-decoration: none;
+  color: #8ea8c3;
+}
+a:hover{
+  color: #19baff;
+}
+.footer-bottom p {
+  margin: 0 0 16px 0;
+}
+.footer-social {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 16px;
+}
+.footer-social a {
+  background: rgba(25, 186, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #19baff;
+  text-decoration: none;
+  font-size: 1.2em;
+  transition: all .3s;
+}
+.footer-social a:hover {
+  background: #19baff;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Responsive - Mobile & Tablet */
+@media (max-width: 900px) {
+  .everything-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .everything-left h2 {
+    font-size: 2em;
+  }
+  .cta-box h2 {
+    font-size: 2em;
+  }
+  .cta-box {
+    padding: 40px 24px;
+  }
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+@media (max-width: 600px) {
+  .everything-left h2 {
+    font-size: 1.6em;
+  }
+  .cta-box h2 {
+    font-size: 1.5em;
+  }
+  .cta-box p {
+    font-size: 1em;
+  }
+  .check-list li {
+    font-size: 0.95em;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- NavBar -->
+  <div class="navbar">
+    <div class="navbar-logo">
+      <span class="icon">🛡️</span>
+      <span class="navbar-logo-text">
+        <span class="navbar-logo-title">SafeLink</span><br>
+        <span class="navbar-logo-sub">Digital Defense Hub</span>
+      </span>
+    </div>
+    <button class="hamburger" aria-label="Menu">&#9776;</button>
+    <div class="navbar-links">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <a href="Home.html" class="active">Home</a>
+      <a href="Safetytips.html">Safety Tips</a>
+      <a href="Quiz.html">Quiz</a>
+      <a href="Aboutus.html">About Us</a>
+      <a href="Contactus.html">Contact</a>
+      <span class="navbar-auth"><button id="authBtn">Login / Sign Up</button></span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h1 class="hero-title">Defend Your Digital Identity</h1>
+    <p class="hero-desc">In an era where cyber crimes have evolved into neural hijacking, SafeLink empowers you with the knowledge and skills to protect yourself against modern digital threats.</p>
+    <div class="hero-btns">
+      <button id="getStartedBtn" class="btn-primary">🛡️ Get Started Free</button>
+      <!--button class="btn-secondary" onclick="window.open('https://www.youtube.com/watch?v=Y4WnXPawBn0', '_blank')">Watch Demo</button-->
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stat-card">
+      <span class="stat-number">50K+</span>
+      <span class="stat-label">Active Learners</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">95%</span>
+      <span class="stat-label">Success Rate</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">100+</span>
+      <span class="stat-label">Security Lessons</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">24/7</span>
+      <span class="stat-label">Support Available</span>
+    </div>
+  </section>
+
+  <section class="why-section">
+    <h2>Why Choose SafeLink?</h2>
+    <p class="subtitle">Comprehensive cybersecurity training designed for the modern digital landscape</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">🧠</div>
+        <div class="feature-title">Neural Defense Training</div>
+        <div class="feature-desc">Learn advanced techniques to protect your digital consciousness from hijacking attempts.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-pink">🔒</div>
+        <div class="feature-title">Password Mastery</div>
+        <div class="feature-desc">Master the art of creating unbreakable passwords and secure credential management.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-orange">⚠️</div>
+        <div class="feature-title">Threat Detection</div>
+        <div class="feature-desc">Identify phishing, social engineering, and cyber attacks before they compromise you.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-green">🎖️</div>
+        <div class="feature-title">Gamified Learning</div>
+        <div class="feature-desc">Earn points, unlock achievements, and track your progress through interactive lessons.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="everything-section">
+    <div class="everything-container">
+      <div class="everything-left">
+        <h2>Everything You Need to Stay Safe Online</h2>
+        <p>Our comprehensive platform provides you with all the tools, knowledge, and support needed to master digital security in the age of neural hijacking.</p>
+        <ul class="check-list">
+          <li>Interactive quiz system with instant feedback</li>
+          <li>Real-world scenarios and case studies</li>
+          <li>Expert-designed curriculum</li>
+          <li>Certificate of completion</li>
+          <li>Regular content updates</li>
+          <li>Community support</li>
+        </ul>
+      </div>
+      <div class="everything-right">
+        <div class="community-card">
+          <strong>👥 Join Our Community</strong>
+          <p>Connect with 50,000+ learners worldwide</p>
+        </div>
+        <div class="community-card">
+          <strong>🎖️ Earn Certificates</strong>
+          <p>Get recognized for your achievements</p>
+        </div>
+        <div class="community-card">
+          <strong>🛡️ Stay Protected</strong>
+          <p>Learn from real-world security experts</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2>Ready to Secure Your Digital Future?</h2>
+      <p>Join thousands of learners who have already strengthened their digital defenses. Start your journey today—it's completely free!</p>
+      <button ID="ctaQuizBtn">Sign Up Now →</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>SafeLink</h3>
+        <p>Digital Defense Hub</p>
+        <p>Empowering individuals with knowledge to defend against modern cyber threats and neural hijacking.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="Home.html">Home</a> </li>
+          <li><a href="Safetytips.html">Safety Tips</a></li>
+          <li><a href="Quiz.html">Take Quiz</a></li>
+          <li><a href="Aboutus.html">About Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="Safetytips.html">Learning Modules</a> </li>
+          <li><a href="Safetytips.html">Security Guide</a> </li>
+          <li><a href="Privacy.html">Privacy Policy</a> </li>
+          <li><a href="Terms.html">Terms of Service</a> </li>
+        </ul>
+      </div>
+      <div class="footer-section footer-contact">
+        <h3>Contact Us</h3>
+        <div>📧<a href="mailto:info@safelink.com">info@safelink.com</a> </div>
+        <div>📞 +1 (555) 123-4567</div>
+        <div>📍 San Francisco, CA</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 SafeLink. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/">f</a>
+        <a href="https://www.twitter.com/">𝕏</a>
+        <a href="https://www.linkedin.com/">in</a>
+        <a href="https://www.instagram.com/">📷</a>
+      </div>
+    </div>
+    </footer>
+
+
+
+
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navbarLinks = document.querySelector('.navbar-links');
+    const closeBtn = document.querySelector('.close-btn');
+    // Open menu
+    hamburger.onclick = function() {
+      navbarLinks.classList.add('open');
+    };
+    // Close menu (cut)
+    closeBtn.onclick = function() {
+      navbarLinks.classList.remove('open');
+    };
+    // Optional: close hamburger when link clicked
+    navbarLinks.querySelectorAll('a').forEach(link => {
+      link.onclick = function() {
+        if(window.innerWidth <= 900) navbarLinks.classList.remove('open');
+      }
+    });
+
+
+
+
+    function updateAuthUI() {
+  const username = localStorage.getItem('currentUser');
+  const authBtn = document.getElementById('authBtn');
+  const dropdown = document.getElementById('accountDropdown');
+  const dropdownUser = document.getElementById('dropdownUser');
+  const logoutBtn = document.getElementById('dropdownLogout');
+  
+  if (!authBtn) return;
+  
+  if (username) {
+    authBtn.textContent = '👤 ' + username;
+    authBtn.onclick = function(e) {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      if (dropdownUser) dropdownUser.textContent = username;
+    }
+    document.body.addEventListener('click', function(e) {
+      if (!authBtn.contains(e.target) && dropdown.style.display !== 'none') {
+        dropdown.style.display = 'none';
+      }
+    });
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        localStorage.removeItem('currentUser');
+        dropdown.style.display = 'none';
+        window.location.reload();
+      }
+    }
+  } else {
+    if (dropdown) dropdown.style.display = 'none';
+    authBtn.textContent = 'Login / Sign Up';
+    authBtn.onclick = function() {
+      window.location.href = "Login.html";
+    };
+  }
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('currentUser');
+    window.location.reload();
+  }
+}
+
+document.getElementById('getStartedBtn').onclick = function() {
+  window.location.href = "Quiz.html";
+};
+
+window.addEventListener('DOMContentLoaded', function() {
+  const quizBtn = document.getElementById('ctaQuizBtn');
+  if (!quizBtn) return;
+  const username = localStorage.getItem('currentUser');
+  if (username) {
+    quizBtn.textContent = 'Continue Learning →';
+    quizBtn.onclick = function() {
+      window.location.href = 'Quiz.html';
+    };
+  } else {
+    quizBtn.textContent = 'Sign Up Now →';
+    quizBtn.onclick = function() {
+      window.location.href = 'Quiz.html'; // or, if you use modal on Quiz.html, it will show!
+    };
+  }
+});
+
+
+
+
+
+
+
+window.addEventListener('DOMContentLoaded', updateAuthUI);
+window.addEventListener('storage', updateAuthUI);
+    // Reset menu state on resize
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 900) navbarLinks.classList.remove('open');
+    });
+  </script>
+  <!-- All other sections go here -->
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SafeLink – Digital Safety Tips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
+      background: #0a1628;
+      color: #e8f4ff;
+      min-height: 100vh;
+    }
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0d1b2a;
+      padding: 16px 32px;
+      position: relative;
+      z-index: 10;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .navbar-logo .icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg,#0ac5f4,#1376ff);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6em;
+    }
+    .navbar-logo-text {
+      line-height: 1.15;
+    }
+    .navbar-logo-title {
+      font-weight: bold;
+      font-size: 1.3em;
+      color: #fff;
+      letter-spacing: .02em;
+    }
+    .navbar-logo-sub {
+      color: #19c5ff;
+      font-size: .95em;
+    }
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .navbar-links a {
+      color: #b0eaff;
+      text-decoration: none;
+      font-size: 1.05em;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background .18s, color .18s;
+    }
+    .navbar-links a:hover, .navbar-links .active {
+      background: #19c5ff;
+      color: #0d1b2a;
+    }
+    .navbar-auth {
+      margin-left: 18px;
+    }
+    .navbar-auth button {
+      padding: 10px 22px;
+      border-radius: 24px;
+      background: #19c5ff;
+      color: #0d1b2a;
+      border: none;
+      font-weight: 700;
+      font-size: 1.05em;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .navbar-auth button:hover {
+      background: #53d6ff;
+    }
+    .hamburger {
+      background: none;
+      border: none;
+      font-size: 2em;
+      color: #19c5ff;
+      margin-left: 14px;
+      display: none;
+      cursor: pointer;
+      z-index: 12;
+    }
+    .close-btn {
+      display: none;
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 22;
+      font-size: 2.3em;
+      background: none;
+      color: #19c5ff;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+    }
+    @media (max-width: 900px) {
+      .navbar-links {
+        flex-direction: column;
+        position: fixed;
+        gap: 0;
+        top: 0; right: 0;
+        width: 80vw;
+        max-width: 350px;
+        height: 100vh;
+        background: linear-gradient(120deg,#0d1b2a 60%,#0a1628 100%);
+        box-shadow: -10px 0 40px #0008;
+        padding: 70px 0 24px 18px;
+        z-index: 20;
+        transform: translateX(100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .36s cubic-bezier(.39,.58,.57,1.14), opacity 0.26s;
+      }
+      .navbar-links.open {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .hamburger {
+        display: block;
+      }
+      .navbar-auth { margin-left: 0; margin-top: 18px;}
+      .close-btn {
+        display: block;
+      }
+    }
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(120deg, #0d1b2a 55%, #1a3a6e 120%);
+      text-align: center;
+      padding: 65px 18px 46px 18px;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 22px;
+      background: rgba(25,197,255,0.15);
+      border: 1.5px solid #19c5ff;
+      border-radius: 24px;
+      color: #19c5ff;
+      font-size: 0.98em;
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+    .hero-title {
+      font-size: 3.2em;
+      background: linear-gradient(120deg, #19c5ff 30%, #a68fff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .hero-desc {
+      font-size: 1.22em;
+      color: #bfe2fd;
+      max-width: 780px;
+      margin: auto;
+    }
+    /* Cards Section */
+    .cards-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      max-width: 1280px;
+      margin: 48px auto;
+      padding: 0 28px;
+    }
+    .card {
+      background: linear-gradient(135deg, #121f38 0%, #0f1b2f 100%);
+      border-radius: 18px;
+      padding: 32px 28px;
+      border: 1.5px solid #1e3a5f;
+      box-shadow: 0 4px 28px #00000044;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .card-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7em;
+    }
+    .icon-blue { background: linear-gradient(135deg, #0ac5f4, #1376ff); }
+    .icon-purple { background: linear-gradient(135deg, #d946ef, #9333ea); }
+    .icon-orange { background: linear-gradient(135deg, #fb923c, #f97316); }
+    .icon-indigo { background: linear-gradient(135deg, #818cf8, #6366f1); }
+    .icon-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+    .icon-red { background: linear-gradient(135deg, #f87171, #ef4444); }
+    .icon-orange2 { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .icon-green { background: linear-gradient(135deg, #34d399, #10b981); }
+    .card-title {
+      font-size: 1.45em;
+      font-weight: 700;
+      color: #fff;
+    }
+    .card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .card ul li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 12px;
+      color: #b0d8f7;
+      font-size: 1.02em;
+      line-height: 1.5;
+    }
+    .card ul li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      font-size: 1.4em;
+      color: #19c5ff;
+    }
+    /* Alert Section */
+    .alert-section {
+      max-width: 1280px;
+      margin: 48px auto;
+      padding: 0 28px;
+    }
+    .alert-card {
+      background: linear-gradient(120deg, #3d1e47 0%, #2a1a3e 100%);
+      border: 1.5px solid #8b5cf6;
+      border-radius: 20px;
+      padding: 42px 38px;
+    }
+    .alert-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    .alert-icon {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, #f87171, #ef4444);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.85em;
+    }
+    .alert-title {
+      font-size: 1.75em;
+      font-weight: 700;
+      color: #fff;
+    }
+    .alert-desc {
+      font-size: 1.18em;
+      color: #d1c4e9;
+      margin-bottom: 24px;
+    }
+    .alert-card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .alert-card ul li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 14px;
+      color: #cbb7e5;
+      font-size: 1.05em;
+      line-height: 1.6;
+    }
+    .alert-card ul li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      font-size: 1.5em;
+      color: #f87171;
+    }
+    /* Footer */
+    footer {
+      background: #0a1220;
+      padding: 46px 28px 24px 28px;
+      margin-top: 58px;
+    }
+    .footer-content {
+      max-width: 1280px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 38px;
+      margin-bottom: 32px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .footer-brand .icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg,#0ac5f4,#1376ff);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5em;
+    }
+    .footer-brand-text {
+      line-height: 1.15;
+    }
+    .footer-brand-title {
+      font-weight: bold;
+      font-size: 1.25em;
+      color: #fff;
+    }
+    .footer-brand-sub {
+      color: #19c5ff;
+      font-size: .95em;
+    }
+    .footer-desc {
+      color: #91b4d1;
+      font-size: 1em;
+      line-height: 1.5;
+    }
+    .footer-section h3 {
+      color: #19c5ff;
+      font-size: 1.22em;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .footer-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .footer-section ul li {
+      margin-bottom: 10px;
+      color: #91b4d1;
+      font-size: 1em;
+      cursor: pointer;
+      transition: color .18s;
+    }
+    .footer-section ul li:hover {
+      color: #19c5ff;
+    }
+    .footer-contact li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-bottom {
+      border-top: 1px solid #1e3a5f;
+      padding-top: 22px;
+      text-align: center;
+      color: #6b8aaa;
+      font-size: 0.98em;
+    }
+    a{
+      text-decoration: none;
+      color: #6b8aaa;
+    }
+    a:hover{
+      color: #19c5ff;
+    }
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .footer-social a {
+      width: 42px;
+      height: 42px;
+      background: #1e3a5f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #19c5ff;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: background .19s;
+    }
+    .footer-social a:hover { background: #19c5ff; color: #0a1220; }
+    /* Responsive */
+    @media (max-width: 700px) {
+      .hero-title { font-size: 2.2em; }
+      .hero-desc { font-size: 1.08em; }
+      .cards-section { grid-template-columns: 1fr; gap: 18px; padding: 0 14px;}
+      .card { padding: 24px 18px;}
+      .alert-card { padding: 28px 18px;}
+      .footer-content { grid-template-columns: 1fr; gap: 28px;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-logo">
+      <span class="icon">🛡️</span>
+      <span class="navbar-logo-text">
+        <div class="navbar-logo-title">SafeLink</div>
+        <div class="navbar-logo-sub">Digital Defense Hub</div>
+      </span>
+    </div>
+    <button class="hamburger" aria-label="Menu">&#9776;</button>
+    <div class="navbar-links">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <a href="Home.html">Home</a>
+      <a href="Safetytips.html" class="active">Safety Tips</a>
+      <a href="Quiz.html">Quiz</a>
+      <a href="Aboutus.html">About Us</a>
+      <a href="Contactus.html">Contact</a>
+      <span class="navbar-auth
+          <span class="navbar-auth"><button id="authBtn">Login / Sign Up</button></span>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">🛡️ Essential Security Knowledge</div>
+    <h1 class="hero-title">Digital Safety Tips</h1>
+    <p class="hero-desc">Comprehensive guidelines to protect yourself from cyber threats and neural hijacking attempts</p>
+  </section>
+
+  <!-- Cards Section -->
+  <section class="cards-section">
+    <!-- Password Security -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-blue">🔒</div>
+        <h2 class="card-title">Password Security</h2>
+      </div>
+      <ul>
+        <li>Use passwords that are at least 16 characters long</li>
+        <li>Enable two-factor authentication (2FA) on all accounts</li>
+        <li>Never reuse passwords across different platforms</li>
+        <li>Use a reputable password manager to store credentials</li>
+        <li>Change passwords immediately if you suspect a breach</li>
+        <li>Avoid using personal information in passwords</li>
+      </ul>
+    </div>
+
+    <!-- Phishing Prevention -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-purple">📧</div>
+        <h2 class="card-title">Phishing Prevention</h2>
+      </div>
+      <ul>
+        <li>Verify sender email addresses before clicking links</li>
+        <li>Look for spelling and grammar errors in messages</li>
+        <li>Never share sensitive information via email</li>
+        <li>Hover over links to preview the destination URL</li>
+        <li>Be wary of urgent or threatening language</li>
+        <li>Contact companies directly if unsure about a message</li>
+      </ul>
+    </div>
+
+    <!-- Neural Interface Safety -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-orange2">🧠</div>
+        <h2 class="card-title">Neural Interface Safety</h2>
+      </div>
+      <ul>
+        <li>Keep your neural interface firmware updated</li>
+        <li>Use biometric encryption for neural data</li>
+        <li>Limit third-party app access to neural functions</li>
+        <li>Regularly backup your neural data securely</li>
+        <li>Monitor for unauthorized access attempts</li>
+        <li>Disconnect from public networks during sensitive operations</li>
+      </ul>
+    </div>
+
+    <!-- Mobile Security -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-green">📱</div>
+        <h2 class="card-title">Mobile Security</h2>
+      </div>
+      <ul>
+        <li>Keep your device operating system updated</li>
+        <li>Only download apps from official stores</li>
+        <li>Review app permissions before installing</li>
+        <li>Enable remote wipe capability</li>
+        <li>Use screen lock with strong PIN or biometric</li>
+        <li>Avoid jailbreaking or rooting your device</li>
+      </ul>
+    </div>
+
+    <!-- Network Safety -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-orange">📡</div>
+        <h2 class="card-title">Network Safety</h2>
+      </div>
+      <ul>
+        <li>Avoid public Wi-Fi for sensitive transactions</li>
+        <li>Use a VPN when connecting to public networks</li>
+        <li>Change default router passwords</li>
+        <li>Enable WPA3 encryption on your home network</li>
+        <li>Disable auto-connect features</li>
+        <li>Regularly check connected devices</li>
+      </ul>
+    </div>
+
+    <!-- Privacy Protection -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-indigo">👁️</div>
+        <h2 class="card-title">Privacy Protection</h2>
+      </div>
+      <ul>
+        <li>Review privacy settings on all platforms</li>
+        <li>Limit personal information shared online</li>
+        <li>Use private browsing for sensitive searches</li>
+        <li>Clear cookies and cache regularly</li>
+        <li>Opt out of data collection when possible</li>
+        <li>Be cautious about geo-tagging photos</li>
+      </ul>
+    </div>
+
+    <!-- Data Management -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-pink">💾</div>
+        <h2 class="card-title">Data Management</h2>
+      </div>
+      <ul>
+        <li>Regularly backup important data</li>
+        <li>Encrypt sensitive files and folders</li>
+        <li>Securely delete files you no longer need</li>
+        <li>Use cloud storage with end-to-end encryption</li>
+        <li>Implement the 3-2-1 backup rule</li>
+        <li>Test backup restoration periodically</li>
+      </ul>
+    </div>
+
+    <!-- Social Engineering -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon icon-red">⚠️</div>
+        <h2 class="card-title">Social Engineering</h2>
+      </div>
+      <ul>
+        <li>Verify identities before sharing information</li>
+        <li>Question unexpected requests for credentials</li>
+        <li>Don't trust caller ID - it can be spoofed</li>
+        <li>Be skeptical of "too good to be true" offers</li>
+        <li>Never provide remote access to unknown parties</li>
+        <li>Report suspicious activity to security teams</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Alert Section -->
+  <section class="alert-section">
+    <div class="alert-card">
+      <div class="alert-header">
+        <div class="alert-icon">⚠️</div>
+        <h2 class="alert-title">In Case of Security Breach</h2>
+      </div>
+      <p class="alert-desc">If you suspect your digital identity or neural interface has been compromised:</p>
+      <ul>
+        <li>Immediately disconnect from all networks</li>
+        <li>Change all passwords using a secure device</li>
+        <li>Contact your neural interface provider</li>
+        <li>Report the incident to cyber security authorities</li>
+        <li>Monitor your accounts for unusual activity</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">
+          <span class="icon">🛡️</span>
+          <span class="footer-brand-text">
+            <div class="footer-brand-title">SafeLink</div>
+            <div class="footer-brand-sub">Digital Defense Hub</div>
+          </span>
+        </div>
+        <p class="footer-desc">Empowering individuals with knowledge to defend against modern cyber threats and neural hijacking.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="Home.html">Home</a> </li>
+          <li><a href="Safetytips.html">Safety Tips</a></li>
+          <li><a href="Quiz.html">Take Quiz</a></li>
+          <li><a href="Aboutus.html">About Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="Safetytips.html">Learning Modules</a> </li>
+          <li><a href="Safetytips.html">Security Guide</a> </li>
+          <li><a href="Privacy.html">Privacy Policy</a> </li>
+          <li><a href="Terms.html">Terms of Service</a> </li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <ul class="footer-contact">
+          <li>📧<a href="mailto:info@safelink.com">info@safelink.com</a></li>
+          <li>📞 +1 (555) 123-4567</li>
+          <li>📍 San Francisco, CA</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2024 SafeLink. All rights reserved.
+      <div class="footer-social">
+        <a href="https://www.facebook.com" aria-label="Facebook">f</a>
+        <a href="https://www.twitter.com" aria-label="Twitter">𝕏</a>
+        <a href="https://www.linkedin.com" aria-label="LinkedIn">in</a>
+        <a href="https://www.instagram.com" aria-label="Instagram">📷</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navbarLinks = document.querySelector('.navbar-links');
+    const closeBtn = document.querySelector('.close-btn');
+    
+    hamburger.onclick = function() {
+      navbarLinks.classList.add('open');
+    };
+    
+    closeBtn.onclick = function() {
+      navbarLinks.classList.remove('open');
+    };
+    
+    navbarLinks.querySelectorAll('a').forEach(link => {
+      link.onclick = function() {
+        if(window.innerWidth <= 900) navbarLinks.classList.remove('open');
+      }
+    });
+    
+
+    function updateAuthUI() {
+  const username = localStorage.getItem('currentUser');
+  const authBtn = document.getElementById('authBtn');
+  if (!authBtn) return;
+  if (username) {
+    authBtn.textContent = '👤 ' + username + ' (Logout)';
+    authBtn.onclick = handleLogout;
+  } else {
+    authBtn.textContent = 'Login / Sign Up';
+    authBtn.onclick = function() {
+      // Only show login modal if on Quiz.html, else redirect to Quiz.html
+      if (typeof showLoginModal === 'function') {
+        showLoginModal();
+      } else {
+        window.location.href = "Quiz.html";
+      }
+    };
+  }
+}
+function updateAuthUI() {
+  const username = localStorage.getItem('currentUser');
+  const authBtn = document.getElementById('authBtn');
+  const dropdown = document.getElementById('accountDropdown');
+  const dropdownUser = document.getElementById('dropdownUser');
+  const logoutBtn = document.getElementById('dropdownLogout');
+  
+  if (!authBtn) return;
+  
+  if (username) {
+    authBtn.textContent = '👤 ' + username;
+    authBtn.onclick = function(e) {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      if (dropdownUser) dropdownUser.textContent = username;
+    }
+    document.body.addEventListener('click', function(e) {
+      if (!authBtn.contains(e.target) && dropdown.style.display !== 'none') {
+        dropdown.style.display = 'none';
+      }
+    });
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        localStorage.removeItem('currentUser');
+        dropdown.style.display = 'none';
+        window.location.reload();
+      }
+    }
+  } else {
+    if (dropdown) dropdown.style.display = 'none';
+    authBtn.textContent = 'Login / Sign Up';
+    authBtn.onclick = function() {
+      window.location.href = "Login.html";
+    };
+  }
+}
+window.addEventListener('DOMContentLoaded', updateAuthUI);
+window.addEventListener('storage', updateAuthUI);
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('currentUser');
+    window.location.reload();
+  }
+}
+window.addEventListener('DOMContentLoaded', updateAuthUI);
+window.addEventListener('storage', updateAuthUI);
+
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 900) navbarLinks.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
